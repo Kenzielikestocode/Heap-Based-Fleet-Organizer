@@ -1,6 +1,7 @@
 /**
  * Reports priority queue exception
- * @author Duncan <br>
+ *
+ * @author Mackenzie Millican <br>
  * <pre>
  * File: PQueueException.java<br>
  * Course: csc 3102.001
@@ -30,21 +31,21 @@
 /**
  * This class reports PQueue exceptions.
  */
-class PQueueException extends Exception 
-{
+class PQueueException extends Exception {
     /**
      * Creates a new instance of <code>PQueueException</code> without detail
      * message.
      */
-    public PQueueException() { }
+    public PQueueException() {
+    }
 
     /**
      * Constructs an instance of <code>PQueueException</code> with the specified
      * detail message.
      * @param msg the detail message.
      */
-    public PQueueException(String msg) 
-    {
+    public PQueueException(String msg) {
         super(msg);
     }
 }
+

@@ -1,13 +1,13 @@
 //package fleetorganizer;
 /**
  *
- * @author Duncan <br>
+ * @author Mackenzie Millican <br>
  * Purpose: An interface that provides methods for a class that models a motor vehicle<br>
  * <pre>
  * File: CarAPI.java
- * Date: 99-99-9999
+ * Date: 2/19/2026
  * CSC 3102 Programming Project # 1
- * Instructor: Dr. Duncan 
+ * Instructor: Dr. Duncan
  *
  * DO NOT REMOVE THIS NOTICE (GNU GPL V2):
  * Contact Information: duncanw@lsu.edu
@@ -27,40 +27,46 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>
  * </pre>
  */
-public interface CarAPI 
-{
-  /**
-    * gives the year manufactured
-    * @return the year this vehicle was manufactured
-    */
-   int getYear();
-   
-   /**
-    * gives the make of this vehicle
-    * @return the make of this vehicle
-    */
-   String getMake();
-   
-   /**
-    * gives the model of this vehicle
-    * @return the model of this vehicle
-    */
-   String getModel();
-   
-   /**
-    * gives the type of this vehicle
-    * @return the type of this vehicle
-    */
-   String getType();
-      
-   /**
-    * gives the vehicle record in format [year,make,model,type]
-    * @return a string representation of this vehicle in the format [year,make,model,type]
-    */
-   @Override
-    String toString();    
-        /**
+public interface CarAPI {
+    /**
+     * gives the year manufactured
+     *
+     * @return the year this vehicle was manufactured
+     */
+    int getYear();
+
+    /**
+     * gives the make of this vehicle
+     *
+     * @return the make of this vehicle
+     */
+    String getMake();
+
+    /**
+     * gives the model of this vehicle
+     *
+     * @return the model of this vehicle
+     */
+    String getModel();
+
+    /**
+     * gives the type of this vehicle
+     *
+     * @return the type of this vehicle
+     */
+    String getType();
+
+    /**
+     * gives the vehicle record in format [year,make,model,type]
+     *
+     * @return a string representation of this vehicle in the format [year,make,model,type]
+     */
+    @Override
+    String toString();
+
+    /**
      * compares this Car and the specified Car
+     *
      * @param c a Car
      * @return a number less than 0 when this car comes before
      * the specified Car date; a number greater than 0 when this
@@ -69,3 +75,4 @@ public interface CarAPI
      */
     public int compareTo(Car c);
 }
+

@@ -1,12 +1,13 @@
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.*;
-
 /**
- * This class describes a priority min-queue that uses an array-list-based min binary heap 
- * that implements the PQueueAPI interface. The array list holds objects that implement 
+ * This class describes a priority min-queue that uses an array-list-based min binary heap
+ * that implements the PQueueAPI interface. The array list holds objects that implement
  * the parameterized Comparable interface.
- * @author Duncan, YOUR NAME
+ * @author Mackenzie Millican
  * <pre>
- * Date: LAST DATE MODIFIED
+ * Date: 2/19/2026
  * course: csc 3102
  * Programming Project: 1
  * Instructor: Dr. Duncan
@@ -26,112 +27,152 @@ import java.util.*;
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/> 
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>
  * <pre>
  */
- 
- 
- /**
-  * A min-priority queue implementation that uses an 
-  * array list as its data container
-  * @param <E> the priority queue element type.   
-  */
-public class PQueue<E extends Comparable<E>> implements PQueueAPI<E>
-{    
-   /**
-    * A complete tree stored in an array list representing the 
-    * binary heap
-    */
-   private ArrayList<E> tree;
-   /**
-    * A comparator lambda function that compares two elements of this
-    * heap when rebuilding it; cmp.compare(x,y) gives 1. negative when x less than y
-    * 2. positive when x greater than y 3. 0 when x equal y
-    */   
-   private Comparator<? super E> cmp;
-   
-   /**
-    * Constructs an empty PQueue using the compareTo method of its data type as the 
-	* comparator
-    */
-   public PQueue()
-   {
-      //implement this method
-   }
-   
-   /**
-    * copy constructor
-    */
-   public PQueue(PQueue pQ)
-   {
-      //implement this method	   
-   }
-   
-   /**
-    * A parameterized constructor that uses an externally defined comparator    
-    * @param fn - a trichotomous integer value comparator function   
-    */
-   public PQueue(Comparator<? super E> fn)
-   {
-      //implement this method
-   }
 
-   public boolean isEmpty()
-   {
-      //implement this method
-      return true;
-   }
 
-   public void add(E obj)
-   {
-      //implement this method
-   }
-
-   public E remove() throws PQueueException
-   {
-      //implement this method
-	  return null;
-   }
- 
-   public E peek() throws PQueueException
-   {
-      //implement this method
-	  return null;
-   }
-
-   public int size()
-   {
-      //implement this method
-      return 0;
-   }
-   
-   /**
-    * Swaps a parent and child elements of this heap at the specified indices
-    * @param place an index of the child element on this heap
-    * @param parent an index of the parent element on this heap
-    */
-   private void swap(int place, int parent)
-   {
-      //implement this method
-   }
+/**
+ * A min-priority queue implementation that uses an
+ * array list as its data container
+ * @param <E> the priority queue element type.
+ */
+public class PQueue<E extends Comparable<E>> implements PQueueAPI<E> {
+    /**
+     * A complete tree stored in an array list representing the
+     * binary heap
+     */
+    private ArrayList<E> tree;
+    /**
+     * A comparator lambda function that compares two elements of this
+     * heap when rebuilding it; cmp.compare(x,y) gives 1. negative when x less than y
+     * 2. positive when x greater than y 3. 0 when x equal y
+     */
+    private Comparator<? super E> cmp;
 
     /**
-     * Rebuild this priority queue from the 
+     * Constructs an empty PQueue using the compareTo method of its data type as the
+     * comparator
+     */
+    public PQueue() {
+        tree = new ArrayList<>();
+        tree.add(null);
+        cmp = null;
+    }
+
+    /**
+     * copy constructor
+     */
+    public PQueue(PQueue<E> pQ) {
+        this.cmp = pQ.cmp;
+        this.tree = new ArrayList<>(pQ.tree);
+    }
+
+    /**
+     * A parameterized constructor that uses an externally defined comparator
+     * @param fn - a trichotomous integer value comparator function
+     */
+    public PQueue(Comparator<? super E> fn) {
+        tree = new ArrayList<>();
+        this.cmp = fn;
+    }
+
+    public boolean isEmpty() {
+        if (tree.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public void add(E obj) {
+        tree.add(obj);
+        heapifyUp(tree.size() - 1);
+    }
+
+    public E remove() throws PQueueException {
+        if (tree.isEmpty()) {
+            throw new PQueueException("This queue is empty");
+            //return null;
+        }
+        E minValue = tree.get(0);
+        tree.set(0, tree.get(tree.size() - 1));
+        tree.remove(tree.size() - 1);
+        if (!tree.isEmpty()) {
+            heapifyDown(0);
+        }
+        return minValue;
+
+    }
+
+    public E peek() throws PQueueException {
+        if (tree.isEmpty() == true) {
+            throw new PQueueException("This queue is empty");
+        }
+        return tree.get(0);
+    }
+
+    public int size() {
+        return tree.size() - 1;
+    }
+
+    /**
+     * Swaps a parent and child elements of this heap at the specified indices
+     * @param place  an index of the child element on this heap
+     * @param parent an index of the parent element on this heap
+     */
+    private void swap(int place, int parent) {
+        E temp = tree.get(place);
+        E paren = tree.get(parent);
+        tree.set(place, paren);
+        tree.set(parent, temp);
+    }
+
+    /**
+     * Rebuild this priority queue from the
      * specified index using a trickle up procedure
      * @param index the index at which to begin the rebuild
      */
-    private void heapifyUp(int index)
-    {
-        //implement this method
+    private void heapifyUp(int index) {
+        while (index > 0) {
+            int parent_node = (index - 1) / 2;
+            if (cmp.compare(tree.get(index), tree.get(parent_node)) < 0) {
+                swap(index, parent_node);
+                index = parent_node;
+
+            } else {
+                break;
+            }
+        }
+
+        /**
+         * Rebuild this priority queue from the
+         * specified index using a trickle down procedure
+         * @param index the index at which to begin the rebuild
+         */
     }
-    
-    /**
-     * Rebuild this priority queue from the 
-     * specified index using a trickle down procedure
-     * @param index the index at which to begin the rebuild
-     */   
-    public void heapifyDown(int index)
-    {
+    public void heapifyDown (int index){
         //implement this method
+        int size = tree.size();
+        while (true) {
+            int left_Child = 2 * index + 1;
+            int right_Child = 2 * index + 2;
+            int small = index;
+
+            if (left_Child < size && cmp.compare(tree.get(left_Child), tree.get(small)) < 0) {
+                small = left_Child;
+            }
+
+            if (right_Child < size && cmp.compare(tree.get(right_Child), tree.get(small)) < 0) {
+                small = right_Child;
+            }
+
+            if (small != index) {
+                swap(index, small);
+                index = small;
+            } else{break;}
+        }
     }
 }
+
